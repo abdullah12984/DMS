@@ -1,0 +1,230 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  MANAGER
+  INTERN
+  VIEWER
+}
+
+model User {
+  id                String  @id @default(uuid())
+  name              String
+  email             String  @unique
+  password          String
+  role              Role    @default(INTERN)
+  isActive          Boolean @default(false)
+  phone             String?
+  department        String?
+  notificationEmail String?
+  projectNotes  ProjectNote[]
+  emailUser      String?
+  emailPass      String?
+  emailHost      String? @default("smtp.gmail.com")
+  emailPort      Int?    @default(587)
+  emailConnected Boolean @default(false)
+
+  googleCalendarRefreshToken String?
+  googleCalendarConnected    Boolean @default(false)
+  googleCalendarEmail        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  projects      Project[]      @relation("ProjectManager")
+  teamProjects  Project[]      @relation("ProjectTeam")
+  tasks         Task[]         @relation("TaskAssignee")
+  leads         Lead[]         @relation("LeadAssignee")
+  notifications Notification[]
+  auditLogs     AuditLog[]
+  meetings      Meeting[]      @relation("MeetingParticipants")
+  comments      Comment[]
+    otpCode      String?
+  otpExpiresAt DateTime?
+  otpPurpose   String?    // 'password-reset' | 'password-change'
+}
+
+model Project {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  client      String?
+  type        String    @default("Internal")
+  status      String    @default("Not Started")
+  progress    Int       @default(0)
+  priority    String    @default("Medium")
+  startDate   DateTime?
+  endDate     DateTime?
+  notes  ProjectNote[]
+  managerId String?
+  manager   User?   @relation("ProjectManager", fields: [managerId], references: [id])
+
+  team User[] @relation("ProjectTeam")
+
+  tasks       Task[]
+  engagements Engagement[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Task {
+  id          String    @id @default(uuid())
+  title       String
+  description String?
+  status      String    @default("Not Started")
+  progress    Int       @default(0)
+  priority    String    @default("Medium")
+  startDate   DateTime?
+  deadline    DateTime?
+  completedAt DateTime?
+
+  assigneeId String?
+  assignee   User?   @relation("TaskAssignee", fields: [assigneeId], references: [id])
+
+  projectId String?
+  project   Project? @relation(fields: [projectId], references: [id])
+
+  comments Comment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Lead {
+  id           String    @id @default(uuid())
+  companyName  String
+  contactName  String
+  email        String
+  phone        String?
+  source       String?
+  description  String?
+  status       String    @default("New Lead")
+  lastContact  DateTime?
+  nextFollowUp DateTime?
+  notes        String?
+
+  assignedToId String?
+  assignedTo   User?   @relation("LeadAssignee", fields: [assignedToId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Meeting {
+  id            String   @id @default(uuid())
+  title         String
+  description   String?
+  date          DateTime
+  time          String?
+  location      String?
+  link          String?
+  client        String?
+  projectId     String?
+  leadId        String?
+  googleEventId String?
+  createdById   String?
+
+  participants User[] @relation("MeetingParticipants")
+
+  createdAt DateTime @default(now())
+}
+
+model Engagement {
+  id         String    @id @default(uuid())
+  name       String
+  client     String?
+  type       String    @default("Internal")
+  startDate  DateTime?
+  endDate    DateTime?
+  scope      String?
+  objectives String?
+  resources  String?
+  progress   Int       @default(0)
+  status     String    @default("Not Started")
+  notes      String?
+
+  projectId String?
+  project   Project? @relation(fields: [projectId], references: [id])
+  managerId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Email {
+  id        String   @id @default(uuid())
+  from      String
+  to        String
+  subject   String
+  body      String   @db.Text
+  category  String   @default("Work")
+  isRead    Boolean  @default(false)
+  isStarred Boolean  @default(false)
+  leadId    String?
+  projectId String?
+  meetingId String?
+  createdAt DateTime @default(now())
+}
+
+model EmailTemplate {
+  id        String   @id @default(uuid())
+  name      String
+  subject   String
+  body      String   @db.Text
+  category  String   @default("General")
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  type      String   @default("info")
+  link      String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  userName  String
+  action    String
+  target    String?
+  type      String   @default("info")
+  createdAt DateTime @default(now())
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String   @db.Text
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProjectNote {
+  id        String   @id @default(uuid())
+  content   String   @db.Text
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

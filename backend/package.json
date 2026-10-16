@@ -1,0 +1,36 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "start": "node index.js",
+  "dev": "nodemon index.js",
+  "postinstall": "prisma generate"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.5",
+    "express": "^5.2.1",
+    "googleapis": "^185.0.0",
+    "imapflow": "^2.2.11",
+    "jsonwebtoken": "^9.0.3",
+    "mailparser": "^3.9.37",
+    "multer": "^2.4.0",
+    "nodemailer": "^10.0.16",
+    "recharts": "^3.10.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "prisma": "^6.19.3"
+  }
+
+
+
+}
