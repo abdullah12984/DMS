@@ -1,7 +1,5 @@
-// const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-const BASE_URL = import.meta.env.PROD
-  ? 'https://dms-ylv6.vercel.app/api'
-  : 'http://localhost:5000/api';
+// Version 2.0 — 2026-10-16
+const BASE_URL = 'https://dms-ylv6.vercel.app/api';
 const getToken = () => localStorage.getItem('dms_token');
 
 const request = async (endpoint, options = {}) => {
