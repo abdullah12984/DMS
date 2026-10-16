@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge } from '../../components/Badge';
-import { api } from '../../services/api';
+import { api } from '../../services/apiClient';
 
 const EmailTemplates = () => {
   const navigate = useNavigate();

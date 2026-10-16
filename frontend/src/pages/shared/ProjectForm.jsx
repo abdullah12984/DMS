@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { api } from '../../services/api';
+import { api } from '../../services/apiClient';
 
 const ProjectForm = ({ mode = 'create' }) => {
   const navigate = useNavigate();

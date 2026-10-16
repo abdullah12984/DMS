@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Badge } from '../../components/Badge';
-import { api } from '../../services/api';
+import { api } from '../../services/apiClient';
 
 const Team = () => {
   const [resources, setResources] = useState([]);

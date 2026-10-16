@@ -1,7 +1,7 @@
 // import React, { useState, useEffect } from 'react';
 // import { Badge } from '../../components/Badge';
 // import { useNavigate } from 'react-router-dom';
-// import { api } from '../../services/api';
+// import { api } from '../../services/apiClient';
 
 // const Calendar = ({ role = 'viewer' }) => {
 //   const canCreate = role === 'superadmin';
@@ -153,7 +153,7 @@
 import React, { useState, useEffect } from 'react';
 import { Badge } from '../../components/Badge';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../../services/api';
+import { api } from '../../services/apiClient';
 
 const Calendar = ({ role = 'viewer' }) => {
   const canCreate = role === 'superadmin';

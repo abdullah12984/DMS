@@ -6,7 +6,7 @@ import EmailSetupSection from '../../components/EmailSetupSection';
 import GoogleCalendarSection from '../../components/GoogleCalendarSection';
 import UserEmailSettings from '../../components/UserEmailSettings';
 import ChangePasswordModal from '../../components/ChangePasswordModal';
-import { api } from '../../services/api';
+import { api } from '../../services/apiClient';
 const Settings = () => {
   const { theme, setTheme } = useTheme();
  const { user, logout, refreshUser } = useAuth();

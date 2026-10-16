@@ -14,7 +14,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { api } from '../services/api';
+import { api } from '../services/apiClient';
 
 const ProgressCharts = () => {
   const [data, setData] = useState(null);

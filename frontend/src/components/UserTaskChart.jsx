@@ -9,7 +9,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { api } from '../services/api';
+import { api } from '../services/apiClient';
 
 const UserTaskChart = () => {
   const [data, setData] = useState([]);
