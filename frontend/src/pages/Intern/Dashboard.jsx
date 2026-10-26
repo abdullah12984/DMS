@@ -67,7 +67,7 @@ const InternDashboard = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
-            Hey, {user?.name?.split(' ')[0] || 'there'} 👋
+            Hey, {user?.name?.split(' ')[0] || 'there'} 
           </h1>
           <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
             {tasks.length > 0

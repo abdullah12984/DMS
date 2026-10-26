@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "start": "node index.js",
-  "dev": "nodemon index.js",
-  "postinstall": "prisma generate"
-},
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "postinstall": "prisma generate"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -24,13 +24,11 @@
     "mailparser": "^3.9.37",
     "multer": "^2.4.0",
     "nodemailer": "^10.0.16",
+    "openai": "^7.39.0",
     "recharts": "^3.10.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.14",
     "prisma": "^6.19.3"
   }
-
-
-
 }
